@@ -5,6 +5,7 @@ Kismet Quicks Stats of detected ap/clients/etc from a netxml kismet file
 
 Usage:
 python kismet-stats.py -file FILE
+
 Ex: python kismet-stats.py -file Kismet-20130303-11-25-12-1.netxml
 
 
