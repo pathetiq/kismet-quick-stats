@@ -11,7 +11,11 @@ Ex: python kismet-stats.py -file Kismet-20130303-11-25-12-1.netxml
 
 
 
+
 TODO
 @todo: add option to see only certain encryption type, infrastructure, etc.
+
 @todo: better output
+
 @todo: read multiple files
+
