@@ -1,22 +1,16 @@
 kismet-quick-stats
 ==================
 
-Kismet Quicks Stats of detected ap/clients/etc from a netxml kismet file
+Kismet Quicks Stats of detected ap/clients/etc from a **netxml** kismet file
 
-Usage:
+**Usage**
 
-python kismet-stats.py -file FILE
-
-Ex: python kismet-stats.py -file Kismet-20130303-11-25-12-1.netxml
-
+* python kismet-stats.py -file FILE
+* Ex: python kismet-stats.py -file Kismet-20130303-11-25-12-1.netxml
 
 
-
-TODO
-
-@todo: add option to see only certain encryption type, infrastructure, etc.
-
-@todo: better output
-
-@todo: read multiple files
+**TODO**
+* todo: add option to see only certain encryption type, infrastructure, etc. 
+* todo: better output 
+* todo: read multiple files 
 
