@@ -73,7 +73,37 @@ def parseNetwork(search,search2,tree):
     
     return (total,wpa,wpaP,unsec,unsecP,wep,wepP,nosec,nosecP,notSecure,notSecureP)
 
+def parseChannels(s1,s2,tree):
+    global totalChannels
+    channels = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
+    
+    for call in tree.xpath(s1):
+        
+        ch = call
+        chan = ch.xpath(s2)
+        
+        try:
+            #print channels[int(chan[0])]
+            channels[int(chan[0])] = channels[int(chan[0])]+1
+            totalChannels[int(chan[0])] = totalChannels[int(chan[0])]+1
+        except IndexError:
+            pass
+        
+    return channels
+        
+
+def printChannels(title,data):
+    total = 0
+    print "\n",title
+    for i in range(0,len(data)):
+        print "Channel #",i+1," :",data[i]
+        total += data[i]
+        
+    print "Total",title,": ",total
+
 def printResults(title,data):
+    global totalWifi
+    totalWifi += data[0]
     print title,": ",data[0]
     print "\tWPA 1-2 (TKIP/AES/PSK)\t: ",data[1]," | ",data[2],"%"
     print "\tOpen\t\t\t: ",data[3]," | ",data[4],"%"
@@ -91,18 +121,33 @@ def parseXML(xmlFile):
     
     #INFRASTRUCTURE
     data = parseNetwork('//wireless-network[@type="infrastructure"]/SSID','.//encryption/text()',tree)
+    dataC = parseChannels('//wireless-network[@type="infrastructure"]/channel','text()',tree)
     #print the stats
     printResults("Access Points",data)
+    printChannels("Channels for Access Points",dataC)
+    print "\n"
     
     #MOBILE
     data = parseNetwork('//wireless-network[@type="ad-hoc" or @type="fromds" or @type="probes" or @type="tods"]','.//SSID/encryption/text()',tree)
+    dataC = parseChannels('//wireless-network[@type="ad-hoc" or @type="fromds" or @type="probes" or @type="tods"]/channel','text()',tree)
     #print the stats
     printResults("Ad-Hoc (cellulaire)",data)
+    printChannels("Channels for Ad-Hoc (cellulaire)",dataC)
+    print "\n"
     
     #CLIENTS
     data = parseNetwork('//wireless-client[@type="ad-hoc" or @type="fromds" or @type="probes" or @type="tods"]','.//SSID/encryption/text()',tree)
+    dataC = parseChannels('//wireless-client[@type="ad-hoc" or @type="fromds" or @type="probes" or @type="tods"]/channel','text()',tree)
+    print "\n"
+    
     #print the stats
     printResults("Wifi-Clients",data)
+    printChannels("Channels for Wifi-Clients",dataC)
+    print "\n"
+    
+    #data = parseChannels('//wireless-network/channel/text()',tree)
+    #print the stats
+    #printChannels("All Channels",data)
     
 
 if __name__ == "__main__":
@@ -123,9 +168,15 @@ if __name__ == "__main__":
     #args
     filename = args.file
     
+    totalWifi = 0
+    totalChannel = 0
+    totalChannels = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
+
     #dew it
     parseXML(filename)
     
+    print "Total numbers of wifi:",totalWifi
+    printChannels("List of total numbers of channels:",totalChannels)
     quit()
     
     
